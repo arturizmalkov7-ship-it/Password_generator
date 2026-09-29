@@ -42,7 +42,10 @@
 
       <section class="result" aria-labelledby="result-title">
         <h2 id="result-title">Ваш пароль</h2>
-        <output id="password" aria-live="polite">Здесь появится пароль</output>
+        <div class="password-row">
+          <output id="password" aria-live="polite">Здесь появится пароль</output>
+          <button id="copy-button" class="copy-button" type="button" disabled>Скопировать</button>
+        </div>
         <p id="message" aria-live="polite">Строчные буквы используются всегда.</p>
       </section>
     </main>
