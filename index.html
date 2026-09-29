@@ -4,50 +4,71 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Генератор паролей</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
     <script src="generator.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
     <main class="generator">
-      <p class="eyebrow">Небольшой полезный инструмент</p>
-      <h1>Генератор<br />паролей</h1>
-      <p class="intro">Задайте параметры и создайте случайный пароль.</p>
-
-      <form id="password-form">
-        <label class="length-label" for="length">Длина пароля</label>
-        <div class="length-control">
-          <input id="length" name="length" type="number" min="6" max="30" value="12" required />
-          <span>символов</span>
+      <header class="identity">
+        <p class="eyebrow"><span class="signal" aria-hidden="true"></span>Инструмент безопасности</p>
+        <h1>Генератор<br />паролей</h1>
+        <p class="lede">Настройте набор символов и создайте пароль, который подходит именно вам.</p>
+        <div class="range-note">
+          <span class="range-value">06—30</span>
+          <span class="range-label">символов в пароле</span>
         </div>
+      </header>
 
-        <fieldset>
-          <legend>Какие символы добавить?</legend>
-          <label class="option">
-            <input id="include-numbers" type="checkbox" checked />
-            <span>Цифры <small>0–9</small></span>
-          </label>
-          <label class="option">
-            <input id="include-symbols" type="checkbox" />
-            <span>Спецсимволы <small>! @ # $ % &amp; *</small></span>
-          </label>
-          <label class="option">
-            <input id="include-uppercase" type="checkbox" />
-            <span>Верхний регистр <small>A–Z</small></span>
-          </label>
-        </fieldset>
+      <div class="workbench">
+        <form id="password-form">
+          <div class="section-heading">
+            <h2>Настройки</h2>
+            <span class="section-index" aria-hidden="true">01</span>
+          </div>
 
-        <button type="submit">Сгенерировать пароль <span aria-hidden="true">→</span></button>
-      </form>
+          <div class="length-row">
+            <label class="length-label" for="length">Длина пароля</label>
+            <div class="length-control">
+              <input id="length" name="length" type="number" min="6" max="30" value="12" required />
+              <span>символов</span>
+            </div>
+          </div>
 
-      <section class="result" aria-labelledby="result-title">
-        <h2 id="result-title">Ваш пароль</h2>
-        <div class="password-row">
-          <output id="password" aria-live="polite">Здесь появится пароль</output>
-          <button id="copy-button" class="copy-button" type="button" disabled>Скопировать</button>
-        </div>
-        <p id="message" aria-live="polite">Строчные буквы используются всегда.</p>
-      </section>
+          <fieldset>
+            <legend>Добавить символы</legend>
+            <label class="option">
+              <input id="include-numbers" type="checkbox" checked />
+              <span>Цифры <small>0–9</small></span>
+            </label>
+            <label class="option">
+              <input id="include-symbols" type="checkbox" />
+              <span>Спецсимволы <small>! @ # $ % &amp; *</small></span>
+            </label>
+            <label class="option">
+              <input id="include-uppercase" type="checkbox" />
+              <span>Заглавные буквы <small>A–Z</small></span>
+            </label>
+          </fieldset>
+
+          <button class="generate-button" type="submit">Сгенерировать пароль <span aria-hidden="true">↗</span></button>
+        </form>
+
+        <section class="result" aria-labelledby="result-title">
+          <div class="section-heading result-heading">
+            <h2 id="result-title">Ваш пароль</h2>
+            <span class="section-index" aria-hidden="true">02</span>
+          </div>
+          <div class="password-row">
+            <output id="password" aria-live="polite">Здесь появится пароль</output>
+            <button id="copy-button" class="copy-button" type="button" disabled aria-label="Скопировать пароль">Скопировать</button>
+          </div>
+          <p id="message" aria-live="polite">Строчные буквы используются всегда.</p>
+        </section>
+      </div>
     </main>
   </body>
 </html>
