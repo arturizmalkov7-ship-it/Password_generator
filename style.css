@@ -63,7 +63,11 @@ button:focus-visible, input:focus-visible { outline: 3px solid #a6c43f; outline-
 
 .result { margin-top: 24px; padding: 18px; border: 1px solid var(--line); background: #f8f9f5; }
 .result h2 { margin: 0 0 11px; font-size: 14px; }
-.result output { display: block; min-height: 25px; overflow-wrap: anywhere; font: 16px/1.5 monospace; }
+.password-row { display: flex; align-items: center; gap: 12px; }
+.result output { display: block; min-width: 0; min-height: 25px; flex: 1; overflow-wrap: anywhere; font: 16px/1.5 monospace; }
+.copy-button { width: auto; min-height: 38px; flex: 0 0 auto; padding: 0 12px; border: 1px solid var(--line); background: var(--accent); color: #20271f; font-size: 12px; }
+.copy-button:hover:not(:disabled) { background: #c9e65b; }
+.copy-button:disabled { background: #eceee7; color: #555b50; cursor: not-allowed; }
 .result p { margin: 9px 0 0; color: var(--muted); font-size: 12px; }
 .result p.error { color: #a33428; }
 

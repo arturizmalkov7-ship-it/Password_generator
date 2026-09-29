@@ -4,13 +4,19 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
-function createApp({ length = '12', numbers = true, symbols = false, uppercase = false } = {}) {
+function createApp({ length = '12', numbers = true, symbols = false, uppercase = false, clipboardError = false } = {}) {
   const submitListeners = [];
+  const copyListeners = [];
+  const copiedTexts = [];
   const errorClasses = new Set();
   const elements = {
     '#password-form': { addEventListener: (eventName, listener) => submitListeners.push(listener) },
     '#length': { value: length },
     '#password': { textContent: 'Пароль еще не создан' },
+    '#copy-button': {
+      disabled: true,
+      addEventListener: (eventName, listener) => copyListeners.push(listener)
+    },
     '#message': {
       textContent: '',
       classList: {
@@ -25,6 +31,14 @@ function createApp({ length = '12', numbers = true, symbols = false, uppercase =
   const context = {
     document: { querySelector: (selector) => elements[selector] },
     window: {},
+    navigator: {
+      clipboard: {
+        writeText: async (text) => {
+          if (clipboardError) throw new Error('Clipboard is unavailable');
+          copiedTexts.push(text);
+        }
+      }
+    },
     Uint8Array,
     crypto: { getRandomValues: (values) => { values[0] = 0; return values; } }
   };
@@ -38,8 +52,12 @@ function createApp({ length = '12', numbers = true, symbols = false, uppercase =
   return {
     elements,
     errorClasses,
+    copiedTexts,
     submit() {
       submitListeners[0]({ preventDefault() {} });
+    },
+    async copy() {
+      await copyListeners[0]();
     }
   };
 }
@@ -82,4 +100,26 @@ test('создает пароль минимальной длины с выбр�
   assert.equal(password.length, 6);
   assert.match(password, /\d/);
   assert.equal(app.errorClasses.has('error'), false);
+});
+
+test('копирует пароль и показывает подтверждение', async () => {
+  const app = createApp();
+  app.submit();
+  const password = app.elements['#password'].textContent;
+
+  await app.copy();
+
+  assert.deepEqual(app.copiedTexts, [password]);
+  assert.equal(app.elements['#message'].textContent, 'Пароль скопирован в буфер обмена.');
+});
+
+test('показывает ошибку, если браузер не дает скопировать пароль', async () => {
+  const app = createApp({ clipboardError: true });
+  app.submit();
+
+  await app.copy();
+
+  assert.match(app.elements['#message'].textContent, /Не удалось скопировать/);
+  assert.equal(app.errorClasses.has('error'), true);
+  assert.deepEqual(app.copiedTexts, []);
 });
