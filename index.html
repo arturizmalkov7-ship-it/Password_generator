@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Генератор паролей</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="generator.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="generator">
+      <p class="eyebrow">Небольшой полезный инструмент</p>
+      <h1>Генератор<br />паролей</h1>
+      <p class="intro">Задайте параметры и создайте случайный пароль.</p>
+
+      <form id="password-form">
+        <label class="length-label" for="length">Длина пароля</label>
+        <div class="length-control">
+          <input id="length" name="length" type="number" min="6" max="30" value="12" required />
+          <span>символов</span>
+        </div>
+
+        <fieldset>
+          <legend>Какие символы добавить?</legend>
+          <label class="option">
+            <input id="include-numbers" type="checkbox" checked />
+            <span>Цифры <small>0–9</small></span>
+          </label>
+          <label class="option">
+            <input id="include-symbols" type="checkbox" />
+            <span>Спецсимволы <small>! @ # $ % &amp; *</small></span>
+          </label>
+          <label class="option">
+            <input id="include-uppercase" type="checkbox" />
+            <span>Верхний регистр <small>A–Z</small></span>
+          </label>
+        </fieldset>
+
+        <button type="submit">Сгенерировать пароль <span aria-hidden="true">→</span></button>
+      </form>
+
+      <section class="result" aria-labelledby="result-title">
+        <h2 id="result-title">Ваш пароль</h2>
+        <output id="password" aria-live="polite">Здесь появится пароль</output>
+        <p id="message" aria-live="polite">Строчные буквы используются всегда.</p>
+      </section>
+    </main>
+  </body>
+</html>
